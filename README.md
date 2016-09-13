@@ -55,11 +55,11 @@
 
 ###另外封装类还提供了一些便捷的请求设置
 
-####1.全局设置请服务器域名,可以将域名提取便于编译内外网域名那个测试,只需在AppDelegate中设置一次即可,会自动判断链接是否是完整链接
+####1.全局设置服务器域名,可以将域名提取便于便于内外网域名那个测试,只需在AppDelegate中设置一次即可,会自动判断链接是否是完整链接
 
     + (void)updateBaseUrl:(NSString *)baseUrl
 
-####2.设置超时时间
+####2.设置请求超时时间
 
     + (void)setRequestTimeoutInterval:(NSTimeInterval)time
 
