@@ -84,7 +84,6 @@ static NSString *privateNetworkBaseUrl = nil;
     }
     //读取缓存
     responseCache ? responseCache([DNNetworkCache getHttpCacheForKey:urlString]) : nil;
-    
     return [_manager GET:urlString parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
@@ -203,6 +202,14 @@ static NSString *privateNetworkBaseUrl = nil;
     //设置服务器返回结果的类型:JSON
     _manager.responseSerializer = [AFJSONResponseSerializer serializer];
     _manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html", @"text/json", @"text/plain", @"text/javascript", @"text/xml", @"image/*", nil];
+    // 整数设置
+    NSString * cerPath = [[NSBundle mainBundle] pathForResource:@"xxx" ofType:@"cer"];
+    NSData * cerData = [NSData dataWithContentsOfFile:cerPath];
+    _manager.securityPolicy = [AFSecurityPolicy policyWithPinningMode:AFSSLPinningModeCertificate withPinnedCertificates:[[NSSet alloc] initWithObjects:cerData, nil]];
+    // 客户端是否信任非法证书
+    _manager.securityPolicy.allowInvalidCertificates = YES;
+    // 是否在证书域字段中验证域名
+    [_manager.securityPolicy setValidatesDomainName:NO];
 }
 
 + (void)updateBaseUrl:(NSString *)baseUrl {
